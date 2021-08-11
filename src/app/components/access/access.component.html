@@ -5,13 +5,19 @@
         <insta-banner></insta-banner>
       </div>
   
-      <div class="col-sm-6 d-flex justify-content-start"
-           [@panel-animation]="panelState">
-        <div *ngIf="registry; else login">
+      <div class="col-sm-6 d-flex justify-content-start">
+        <div *ngIf="registry; else login"
+             [@panel-animation]="panelState"
+             (@panel-animation.start)="startAnimation()"
+             (@panel-animation.done)="endAnimation()">
           <insta-register (showPanel)="showPanel($event)"></insta-register>
         </div>
         <ng-template #login>
-          <insta-login (showPanel)="showPanel($event)"></insta-login>
+          <div [@panel-animation]="panelState"
+               (@panel-animation.start)="startAnimation()"
+               (@panel-animation.done)="endAnimation()">
+            <insta-login (showPanel)="showPanel($event)"></insta-login>
+          </div>
         </ng-template>
       </div>  
     </div>
