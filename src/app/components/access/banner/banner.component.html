@@ -1,1 +1,6 @@
-<div class="banner-background"></div>
+<button (click)="toggleBannerState()">Click-me</button>
+<div class="banner-background">
+    <img src="../../../../assets/access-banner/banner-images/img_1.png"
+         alt="banner"
+         [@banner]="bannerState" />
+</div>
