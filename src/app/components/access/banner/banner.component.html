@@ -1,6 +1,5 @@
-<button (click)="toggleBannerState()">Click-me</button>
 <div class="banner-background">
-    <img src="../../../../assets/access-banner/banner-images/img_1.png"
-         alt="banner"
-         [@banner]="bannerState" />
+    <img *ngFor="let image of transitionImages"
+         [src]="image.url"
+         [@banner]="image.state" />
 </div>
