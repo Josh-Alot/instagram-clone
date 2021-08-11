@@ -1,5 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { IMAGES_MOCK } from 'src/app/shared/mocks/transition-images.mock';
+
+import { TransitionImage } from 'src/app/shared/models/transition-image.model';
 
 @Component({
   selector: 'insta-banner',
@@ -19,6 +22,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
   public bannerState = 'visible';
+  public transitionImages: TransitionImage[] = IMAGES_MOCK;
 
   constructor() { }
 
