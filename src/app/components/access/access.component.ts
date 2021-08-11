@@ -35,10 +35,16 @@ import { Component, OnInit } from '@angular/core';
 export class AccessComponent implements OnInit {
   public bannerState = 'created';
   public panelState = 'created';
+  public registry = false;
 
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  public showPanel(event: string): void {
+    this.registry = event === 'registry' ? true : false;
   }
 
 }

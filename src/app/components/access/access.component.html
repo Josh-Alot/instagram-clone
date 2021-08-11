@@ -7,8 +7,12 @@
   
       <div class="col-sm-6 d-flex justify-content-start"
            [@panel-animation]="panelState">
-        <!-- <insta-login></insta-login> -->
-        <insta-register></insta-register>
+        <div *ngIf="registry; else login">
+          <insta-register (showPanel)="showPanel($event)"></insta-register>
+        </div>
+        <ng-template #login>
+          <insta-login (showPanel)="showPanel($event)"></insta-login>
+        </ng-template>
       </div>  
     </div>
 </div>
