@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
 
+import firebase from 'firebase';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   constructor() { }
 
-  public insertUser(user: User): void {
-    console.log('user to insert:', user);
+  public createUser(user: User): Promise<any> {
+    return firebase.auth()
+                   .createUserWithEmailAndPassword(user.email, user.password)
+                   .then((res: any) => {
+                     // @ts-expect-error
+                     delete user.password; // deletes password
+
+                     firebase
+                        .database() 
+                        .ref(`user_details/${btoa(user.email)}`) // converts a string into base64
+                        .set({ user: user })
+                   })
+                   .catch((err: Error) => console.log(err));
   }
 }

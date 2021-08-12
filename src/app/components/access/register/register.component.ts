@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
       this.registryForm.value.password,
     );
 
-    this.authService.insertUser(this.user);
+    this.authService.createUser(this.user);
   }
 
 }
