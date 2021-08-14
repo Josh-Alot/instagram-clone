@@ -8,14 +8,17 @@ import { AccessComponent } from './components/access/access.component';
 import { BannerComponent } from './components/access/banner/banner.component';
 import { LoginComponent } from './components/access/login/login.component';
 import { RegisterComponent } from './components/access/register/register.component';
-
+import { HomeComponent } from './components/home/home.component';
+import { TimelineComponent } from './components/home/timeline/timeline.component';
 @NgModule({
   declarations: [
     AppComponent,
     AccessComponent,
     BannerComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent,
+    TimelineComponent,
   ],
   imports: [
     BrowserModule,
