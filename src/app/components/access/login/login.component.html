@@ -2,10 +2,11 @@
     <div class="card-body">
       <div class="card-title"></div>
       
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="signIn()">
         <div class="form-group">
           <input 
-            type="email" 
+            type="email"
+            formControlName="email"
             class="form-control" 
             placeholder="E-mail"
           >
@@ -13,8 +14,9 @@
         <div class="form-group">
           <input 
             type="password"
+            formControlName="password"
             class="form-control" 
-            placeholder="Senha"
+            placeholder="Password"
           >
         </div>
         <button type="submit" class="btn btn-primary btn-sm btn-block">Sign-in</button>

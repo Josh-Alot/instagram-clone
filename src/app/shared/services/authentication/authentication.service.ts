@@ -23,4 +23,11 @@ export class AuthenticationService {
                    })
                    .catch((err: Error) => console.log(err));
   }
+
+  public signIn(email: string, password: string): void {
+    firebase.auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
+  }
 }
