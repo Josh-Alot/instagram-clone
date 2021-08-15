@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { TimelineComponent } from './components/home/timeline/timeline.component';
 import { ROUTES } from './app.routes';
 import { AuthGuardService } from './shared/services/authentication/auth-guard.service';
+import { NewPublicationComponent } from './components/home/new-publication/new-publication.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AuthGuardService } from './shared/services/authentication/auth-guard.se
     RegisterComponent,
     HomeComponent,
     TimelineComponent,
+    NewPublicationComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,12 @@
     <div class="container">
       <div class="logo"></div>
       <div>
-        <div class="add-post"></div>
-        <a (click)="signOut()"
+        <div class="add-post"
+             data-toggle="modal" 
+             data-target="#exampleModal"
+             style="cursor: pointer"></div>
+        <a href="#"
+           (click)="signOut()"
            style="margin-left: 25px; cursor: pointer">Sign-Out</a>
       </div>
     </div>  
@@ -12,4 +16,5 @@
   <br /><br /><br />
   <div class="container">
     <insta-timeline></insta-timeline>
+    <insta-new-publication></insta-new-publication>
   </div>
