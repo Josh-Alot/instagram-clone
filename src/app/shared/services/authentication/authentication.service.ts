@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public tokenID?: string | undefined | null;
 
   constructor(private router: Router) { }
 
@@ -26,25 +25,34 @@ export class AuthenticationService {
                    .catch((err: Error) => console.log(err));
   }
 
-  public signIn(email: string, password: string): Promise<any> {
-    return firebase.auth()
-                   .signInWithEmailAndPassword(email, password)
-                   .then(() => {
-                     firebase.auth()
-                             .currentUser?.getIdToken()
-                             .then((tokenID: string) => {
-                                localStorage.setItem('tokenID', tokenID);
-                                this.router.navigate(['/home'])
-                             })
-                   })
-                   .catch((err: Error) => console.error(err));
+  public signIn(email: string, password: string): void {
+    firebase.auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+              firebase.auth()
+                      .currentUser?.getIdToken()
+                      .then((tokenID: string) => {
+                         localStorage.setItem('tokenID', tokenID);
+                         this.router.navigate(['/home'])
+                      })
+            })
+            .catch((err: Error) => console.error(err));
+  }
+
+  public signOut(): void {
+    firebase.auth()
+            .signOut()
+            .then(() => {
+              localStorage.removeItem('tokenID');
+              this.router.navigate(['/']);
+            });
   }
 
   public isAuthenticated(): boolean {
-    if(this.tokenID === undefined || localStorage.getItem('tokenID') !== null) {
-      this.tokenID = localStorage.getItem('tokenID');
+    if(localStorage.getItem('tokenID') === null) {
+      this.router.navigate(['/']);
     }
-
-    return this.tokenID !== undefined;
+    
+    return localStorage.getItem('tokenID') !== null;
   }
 }
