@@ -12,6 +12,7 @@ import { RegisterComponent } from './components/access/register/register.compone
 import { HomeComponent } from './components/home/home.component';
 import { TimelineComponent } from './components/home/timeline/timeline.component';
 import { ROUTES } from './app.routes';
+import { AuthGuardService } from './shared/services/authentication/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { ROUTES } from './app.routes';
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
