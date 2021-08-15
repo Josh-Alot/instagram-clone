@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   public showPanel: EventEmitter<string> = new EventEmitter();
   public user!: User;
 
+  // TODO: implements the form validation
   public registryForm: FormGroup = new FormGroup({
     'email': new FormControl(null),
     'fullName': new FormControl(null),

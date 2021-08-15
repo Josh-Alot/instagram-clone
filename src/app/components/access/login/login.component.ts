@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/shared/services/authentication/au
   providers: [AuthenticationService]
 })
 export class LoginComponent implements OnInit {
+  // TODO: implement a form validation
   public loginForm: FormGroup = new FormGroup({
     'email': new FormControl(null),
     'password': new FormControl(null)

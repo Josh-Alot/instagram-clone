@@ -12,7 +12,9 @@ import firebase from 'firebase';
 })
 export class NewPublicationComponent implements OnInit {
   public email!: string | null | undefined;
+  private images: any;
 
+  // TODO: implements que form validation
   public newPostForm: FormGroup = new FormGroup({
     "description": new FormControl(''),
   });
@@ -26,12 +28,13 @@ export class NewPublicationComponent implements OnInit {
   }
 
   public prepareImgToUpload(event: Event): void {
-    console.log((<HTMLInputElement>event.target).files);
+    this.images = (<HTMLInputElement>event.target).files;
   }
 
   public publicatePost(): void {
     this.publicationsService.publicatePost({
       email: this.email,
+      image: this.images[0],
       description: this.newPostForm.value.description,
     });
   }
