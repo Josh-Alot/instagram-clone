@@ -14,6 +14,7 @@ import { TimelineComponent } from './components/home/timeline/timeline.component
 import { ROUTES } from './app.routes';
 import { AuthGuardService } from './shared/services/authentication/auth-guard.service';
 import { NewPublicationComponent } from './components/home/new-publication/new-publication.component';
+import { PublicationsService } from './shared/services/publications/publications.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,10 @@ import { NewPublicationComponent } from './components/home/new-publication/new-p
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
   ],
-  providers: [AuthGuardService],
+  providers: [
+    AuthGuardService,
+    PublicationsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
