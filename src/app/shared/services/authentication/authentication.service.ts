@@ -17,10 +17,9 @@ export class AuthenticationService {
                    .then((res: any) => {
                      // @ts-expect-error
                      delete user.password; // deletes password
-                     firebase
-                        .database() 
-                        .ref(`user_details/${btoa(user.email)}`) // converts a string into base64
-                        .set({ user: user })
+                     firebase.database() 
+                             .ref(`user_details/${btoa(user.email)}`) // string into base64
+                             .set({ user: user })
                    })
                    .catch((err: Error) => console.log(err));
   }

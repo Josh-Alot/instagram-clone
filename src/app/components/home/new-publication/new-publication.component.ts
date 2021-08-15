@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+
 import { PublicationsService } from 'src/app/shared/services/publications/publications.service';
+import firebase from 'firebase';
 
 @Component({
   selector: 'insta-new-publication',
@@ -9,17 +11,25 @@ import { PublicationsService } from 'src/app/shared/services/publications/public
   providers: [ PublicationsService ]
 })
 export class NewPublicationComponent implements OnInit {
+  public email!: string | null | undefined;
+
   public newPostForm: FormGroup = new FormGroup({
     "description": new FormControl(''),
   });
 
   constructor(private publicationsService: PublicationsService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.email = user?.email;
+    })
+  }
 
   public publicatePost(): void {
-    // console.log('published:', this.newPostForm.value);
-    this.publicationsService.publicatePost();
+    this.publicationsService.publicatePost({
+      email: this.email,
+      description: this.newPostForm.value.description,
+    });
   }
 
 }
