@@ -25,6 +25,10 @@ export class NewPublicationComponent implements OnInit {
     })
   }
 
+  public prepareImgToUpload(event: Event): void {
+    console.log((<HTMLInputElement>event.target).files);
+  }
+
   public publicatePost(): void {
     this.publicationsService.publicatePost({
       email: this.email,
