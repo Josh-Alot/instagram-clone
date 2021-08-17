@@ -35,7 +35,14 @@ export class PublicationsService {
                   }  
               );
      });
+  }
 
-    
+  public checkPublications(userEmail: string): any {
+    firebase.database()
+            .ref(`publications/${btoa(userEmail)}`)
+            .once('value')
+            .then((snapshot: any) => {
+              console.log(snapshot.val());
+            })
   }
 }

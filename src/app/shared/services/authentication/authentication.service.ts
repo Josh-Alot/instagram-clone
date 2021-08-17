@@ -16,7 +16,6 @@ export class AuthenticationService {
     return firebase.auth()
                    .createUserWithEmailAndPassword(user.email, user.password)
                    .then((res: any) => {
-                     // @ts-expect-error
                      delete user.password; // deletes password
                      firebase.database() 
                              .ref(`user_details/${btoa(user.email)}`) // string into base64

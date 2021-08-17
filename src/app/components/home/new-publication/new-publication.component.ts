@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { PublicationsService } from 'src/app/shared/services/publications/publications.service';
 import firebase from 'firebase';
 import { UploadProgressService } from 'src/app/shared/services/progress/upload-progress.service';
-import { interval, Subject } from 'rxjs';
+import { interval, Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -57,7 +57,8 @@ export class NewPublicationComponent implements OnInit {
 
     uploadObservable
       .pipe(takeUntil(continuation))
-      .subscribe(() => {
+      .subscribe(
+        () => {
           this.publicationProgress = 'uploading';
           this.uploadPercentage = 
           Math.round((this.uploadProgressService.uploadState.bytesTransferred /
@@ -67,6 +68,9 @@ export class NewPublicationComponent implements OnInit {
             this.publicationProgress = 'done';
             continuation.next(false);
           }
+        },
+        (error: Error) => {
+          throwError(error)
         },
       );
 
