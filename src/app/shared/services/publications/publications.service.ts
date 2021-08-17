@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import firebase from 'firebase';
+import { throwError } from 'rxjs';
+import { UploadProgressService } from '../progress/upload-progress.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublicationsService {
-  constructor() { }
+  constructor(private uploadProgressService: UploadProgressService) { }
 
   public publicatePost(publication: any): void {
     // firebase.database()
@@ -20,7 +22,18 @@ export class PublicationsService {
             .ref()
             .child(`images/${imageName}`)
             .put(publication.image)
-
-    console.log(publication);
+            .on(firebase.storage.TaskEvent.STATE_CHANGED, // listener
+                (snapshot: any) => { // snapshot the upload progress
+                  this.uploadProgressService.status = 'in-progress';
+                  this.uploadProgressService.uploadState = snapshot;
+                },
+                (error: any) => {
+                  this.uploadProgressService.status = 'error';
+                  throwError(error);
+                },
+                () => {
+                  this.uploadProgressService.status = 'done';
+                }  
+            );
   }
 }

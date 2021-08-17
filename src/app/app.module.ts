@@ -15,6 +15,7 @@ import { ROUTES } from './app.routes';
 import { AuthGuardService } from './shared/services/authentication/auth-guard.service';
 import { NewPublicationComponent } from './components/home/new-publication/new-publication.component';
 import { PublicationsService } from './shared/services/publications/publications.service';
+import { UploadProgressService } from './shared/services/progress/upload-progress.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PublicationsService } from './shared/services/publications/publications
   ],
   providers: [
     AuthGuardService,
-    PublicationsService
+    PublicationsService,
+    UploadProgressService
   ],
   bootstrap: [AppComponent]
 })
