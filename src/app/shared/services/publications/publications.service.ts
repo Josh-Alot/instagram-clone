@@ -11,29 +11,31 @@ export class PublicationsService {
   constructor(private uploadProgressService: UploadProgressService) { }
 
   public publicatePost(publication: any): void {
-    // firebase.database()
-    //         .ref(`publications/${btoa(publication.email)}`)
-    //         .push({ description: publication.description });
-    
-    // TODO: implement a more complex method for rename the image
-    let imageName = Date.now();
+    firebase.database()
+    .ref(`publications/${btoa(publication.email)}`)
+    .push({ description: publication.description })
+     .then((res: any) => {
+      let imageName = res.key;
+      
+      firebase.storage()
+              .ref()
+              .child(`images/${imageName}`)
+              .put(publication.image)
+              .on(firebase.storage.TaskEvent.STATE_CHANGED, // listener
+                  (snapshot: any) => { // snapshot the upload progress
+                    this.uploadProgressService.status = 'in-progress';
+                    this.uploadProgressService.uploadState = snapshot;
+                  },
+                  (error: any) => {
+                    this.uploadProgressService.status = 'error';
+                    throwError(error);
+                  },
+                  () => {
+                    this.uploadProgressService.status = 'done';
+                  }  
+              );
+     });
 
-    firebase.storage()
-            .ref()
-            .child(`images/${imageName}`)
-            .put(publication.image)
-            .on(firebase.storage.TaskEvent.STATE_CHANGED, // listener
-                (snapshot: any) => { // snapshot the upload progress
-                  this.uploadProgressService.status = 'in-progress';
-                  this.uploadProgressService.uploadState = snapshot;
-                },
-                (error: any) => {
-                  this.uploadProgressService.status = 'error';
-                  throwError(error);
-                },
-                () => {
-                  this.uploadProgressService.status = 'done';
-                }  
-            );
+    
   }
 }

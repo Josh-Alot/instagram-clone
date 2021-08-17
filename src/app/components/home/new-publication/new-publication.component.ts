@@ -63,9 +63,6 @@ export class NewPublicationComponent implements OnInit {
           Math.round((this.uploadProgressService.uploadState.bytesTransferred /
             this.uploadProgressService.uploadState.totalBytes) * 100);
 
-          console.log(this.uploadProgressService.status);
-          console.log(this.uploadProgressService.uploadState);
-
           if(this.uploadProgressService.status === 'done') {
             this.publicationProgress = 'done';
             continuation.next(false);

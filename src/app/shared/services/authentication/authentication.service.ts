@@ -3,6 +3,7 @@ import { User } from '../../models/user.model';
 
 import firebase from 'firebase';
 import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthenticationService {
                              .ref(`user_details/${btoa(user.email)}`) // string into base64
                              .set({ user: user })
                    })
-                   .catch((err: Error) => console.log(err));
+                   .catch((err: Error) => throwError(err));
   }
 
   public signIn(email: string, password: string): void {
