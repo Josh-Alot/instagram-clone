@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import firebase from 'firebase';
 import { throwError } from 'rxjs';
+import { Publication } from '../../models/publication.model';
 import { UploadProgressService } from '../progress/upload-progress.service';
 
 @Injectable({
@@ -37,12 +38,38 @@ export class PublicationsService {
      });
   }
 
-  public checkPublications(userEmail: string): any {
-    firebase.database()
+  public checkPublications(userEmail: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.database()
             .ref(`publications/${btoa(userEmail)}`)
             .once('value')
             .then((snapshot: any) => {
-              console.log(snapshot.val());
-            })
+              let publications: Publication[] = [];
+
+              snapshot.forEach((childSnapshot: any) => {
+                let publication: Publication = childSnapshot.val();
+
+                firebase.storage()
+                        .ref()
+                        .child(`images/${childSnapshot.key}`)
+                        .getDownloadURL()
+                        .then((url: string) => {
+                          publication.imgUrl = url;
+
+                          firebase.database()
+                                  .ref(`user_details/${btoa(userEmail)}`)
+                                  .once('value')
+                                  .then((snapshot: any) => {
+                                    publication.user = snapshot.val();
+                                  });
+
+                          publications.push(publication);
+                        })
+              })
+
+              resolve(publications);
+              reject((error) => throwError(error));
+            });
+    });
   }
 }
