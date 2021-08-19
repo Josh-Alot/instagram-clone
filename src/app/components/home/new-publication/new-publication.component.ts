@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { PublicationsService } from 'src/app/shared/services/publications/publications.service';
-import firebase from 'firebase';
-import { UploadProgressService } from 'src/app/shared/services/progress/upload-progress.service';
 import { interval, Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { UploadProgressService } from 'src/app/shared/services/progress/upload-progress.service';
+import { PublicationsService } from 'src/app/shared/services/publications/publications.service';
+
+import firebase from 'firebase';
 
 @Component({
   selector: 'insta-new-publication',
@@ -22,6 +23,9 @@ export class NewPublicationComponent implements OnInit {
 
   public publicationProgress: string = 'pendent';
   public uploadPercentage: number = 0;
+
+  @Output()
+  public updateTimeline: EventEmitter<any> = new EventEmitter();
 
   // TODO: implements que form validation
   public newPostForm: FormGroup = new FormGroup({
@@ -48,6 +52,7 @@ export class NewPublicationComponent implements OnInit {
       email: this.email,
       image: this.images[0],
       description: this.newPostForm.value.description,
+      
     });
 
     const uploadObservable = interval(1000);
@@ -67,6 +72,9 @@ export class NewPublicationComponent implements OnInit {
           if(this.uploadProgressService.status === 'done') {
             this.publicationProgress = 'done';
             continuation.next(false);
+
+            // emit an event to home.component
+            this.updateTimeline.emit();
           }
         },
         (error: Error) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { AuthenticationService } from 'src/app/shared/services/authentication/au
   providers: [AuthenticationService]
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('timeline')
+  public timeline: any;
 
   constructor(private authService: AuthenticationService) { }
 
@@ -15,6 +17,12 @@ export class HomeComponent implements OnInit {
 
   public signOut(): void {
     this.authService.signOut();
+  }
+
+  public updateTimeline(): void {
+    // console.log('event emitted');
+
+    this.timeline.updateTimeline();
   }
 
 }

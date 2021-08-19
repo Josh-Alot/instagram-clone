@@ -15,6 +15,6 @@
   
   <br /><br /><br />
   <div class="container">
-    <insta-timeline></insta-timeline>
-    <insta-new-publication></insta-new-publication>
+    <insta-timeline #timeline></insta-timeline>
+    <insta-new-publication (updateTimeline)="updateTimeline()"></insta-new-publication>
   </div>

@@ -55,15 +55,14 @@ export class PublicationsService {
                         .getDownloadURL()
                         .then((url: string) => {
                           publication.imgUrl = url;
-
+ 
                           firebase.database()
                                   .ref(`user_details/${btoa(userEmail)}`)
                                   .once('value')
                                   .then((snapshot: any) => {
-                                    publication.user = snapshot.val();
+                                    publication.user = snapshot.val().user;
+                                    publications.push(publication);
                                   });
-
-                          publications.push(publication);
                         })
               })
 

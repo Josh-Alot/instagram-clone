@@ -6,12 +6,13 @@
           <p class="card-text"><strong>{{ publication.user.userName }}</strong></p>
         </div>
   
-        <img class="card-img" [src]="publication.imgUrl" />
+        <img class="card-img img-fluid"
+             [src]="publication.imgUrl" />
         
         <div class="card-body">
           <p class="card-text">
             <strong>{{ publication.user.userName }}</strong>
-              <span>{{ publication.description }}</span>
+              <span> {{ publication.description }}</span>
           </p>
   
           <hr />
