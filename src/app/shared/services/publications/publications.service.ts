@@ -41,34 +41,41 @@ export class PublicationsService {
   public checkPublications(userEmail: string): Promise<any> {
     return new Promise((resolve, reject) => {
       firebase.database()
-            .ref(`publications/${btoa(userEmail)}`)
-            .once('value')
-            .then((snapshot: any) => {
-              let publications: Publication[] = [];
+              .ref(`publications/${btoa(userEmail)}`)
+              .orderByKey()
+              .once('value')
+              .then((snapshot: any) => {
+                let publications: Publication[] = [];
 
-              snapshot.forEach((childSnapshot: any) => {
-                let publication: Publication = childSnapshot.val();
+                snapshot.forEach((childSnapshot: any) => {
+                  let publication: Publication = childSnapshot.val();
 
-                firebase.storage()
-                        .ref()
-                        .child(`images/${childSnapshot.key}`)
-                        .getDownloadURL()
-                        .then((url: string) => {
-                          publication.imgUrl = url;
- 
-                          firebase.database()
-                                  .ref(`user_details/${btoa(userEmail)}`)
-                                  .once('value')
-                                  .then((snapshot: any) => {
-                                    publication.user = snapshot.val().user;
-                                    publications.push(publication);
-                                  });
-                        })
+                  publication.key = childSnapshot.key;
+                  publications.push(publication);
+                })
+                
+                return publications.reverse();
               })
+              .then((publications: Publication[]) => {
+                publications.forEach((publication: Publication) => {
+                  firebase.storage()
+                          .ref()
+                          .child(`images/${publication.key}`)
+                          .getDownloadURL()
+                          .then((url: string) => {
+                            publication.imgUrl = url;
+                          
+                            firebase.database()
+                                    .ref(`user_details/${btoa(userEmail)}`)
+                                    .once('value')
+                                    .then((snapshot: any) => {
+                                      publication.user = snapshot.val().user;
+                                    });
+                          });
+                });
 
-              resolve(publications);
-              reject((error) => throwError(error));
-            });
+                resolve(publications);
+              });
     });
   }
 }

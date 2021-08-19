@@ -30,7 +30,6 @@ export class TimelineComponent implements OnInit {
         .checkPublications(this.email)
         .then((publications: Publication[]) => {
           this.publications = publications;
-          console.log(publications);
         });
   }
 
